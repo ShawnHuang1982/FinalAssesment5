@@ -91,8 +91,11 @@ class addPhotoViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         print("-------------------2.viewWillAppear-------------------")
+        //經過表格點選,會送入點選的表格資料,將根據這個資料顯示
         if let photo = loadPhotoCoreData{
           textFieldPicDescription.text = photo.photoDescription
+            //將NSdata轉UIimage
+            photoImage.image =  UIImage(data: photo.photoImage as! Data)
         }
     }
     
@@ -385,8 +388,8 @@ extension addPhotoViewController{
             return
         }
 
-        saveImage(imageData: NSData(data: imageData))
-        //saveImage(imageData: imageData as NSData)
+//        saveImage(imageData: NSData(data: imageData))
+        saveImage(imageData: imageData as NSData)
     }
     
     func saveImage(imageData:NSData){

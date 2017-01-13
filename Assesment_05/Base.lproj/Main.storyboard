@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -163,13 +164,26 @@
                             <constraint firstItem="ZSi-OM-Vcd" firstAttribute="leading" secondItem="PWi-tz-0fK" secondAttribute="leading" constant="10" id="kwY-0O-Cgr"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Photo" id="anv-NF-VxB">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="Rwr-0Z-4WX">
-                            <connections>
-                                <action selector="saveDataAsCoreData:" destination="zxd-64-J6X" id="M4Z-sO-JaK"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="action" id="XDK-it-hsN"/>
+                            <barButtonItem style="plain" id="LbL-iQ-bLK">
+                                <view key="customView" contentMode="scaleToFill" id="qlh-Sf-LO8">
+                                    <rect key="frame" x="291" y="5" width="30" height="33"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.93321973089999999" green="0.93331867459999995" blue="0.93730396029999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </view>
+                                <color key="tintColor" red="0.93321973085403442" green="0.93331867456436157" blue="0.93730396032333374" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </barButtonItem>
+                            <barButtonItem title="Save" id="Rwr-0Z-4WX">
+                                <connections>
+                                    <action selector="saveDataAsCoreData:" destination="zxd-64-J6X" id="M4Z-sO-JaK"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="containerView" destination="HqW-bd-Wi6" id="aVV-sW-2DS"/>
                         <outlet property="myScrollview" destination="ZSi-OM-Vcd" id="tgA-Yp-DHy"/>
@@ -179,7 +193,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xQH-es-bv6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2018" y="70"/>
+            <point key="canvasLocation" x="1930" y="139"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FFD-HP-arh">
