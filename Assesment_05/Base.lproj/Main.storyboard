@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,7 +26,7 @@
                                 <rect key="frame" x="10" y="74" width="355" height="583"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="121" id="bRL-Be-tx4">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="121" id="bRL-Be-tx4" customClass="CustomTableViewCell" customModule="Assesment_05" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="355" height="121"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bRL-Be-tx4" id="ynW-jb-PMN">
@@ -35,28 +36,49 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pyl-s8-fEg">
                                                     <rect key="frame" x="5" y="5" width="100" height="100"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="b1v-2N-0WR"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="dFq-xy-GB1"/>
                                                         <constraint firstAttribute="width" constant="100" id="jaX-wi-YI4"/>
                                                         <constraint firstAttribute="height" constant="100" id="wcq-ea-T1R"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WY6-N5-Ev5">
-                                                    <rect key="frame" x="115" y="50" width="100" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="檔案名稱" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WY6-N5-Ev5">
+                                                    <rect key="frame" x="115" y="5" width="222" height="50"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="100" id="0jI-9G-XvQ"/>
-                                                        <constraint firstAttribute="height" constant="21" id="CV8-W0-qQ5"/>
+                                                        <constraint firstAttribute="height" constant="50" id="CV8-W0-qQ5"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="描述" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u27-eD-CA1">
+                                                    <rect key="frame" x="115" y="60.5" width="222" height="42"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="42" id="3up-eL-Lxc"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Pyl-s8-fEg" firstAttribute="top" secondItem="ynW-jb-PMN" secondAttribute="top" constant="5" id="4IT-cG-L8D"/>
-                                                <constraint firstItem="WY6-N5-Ev5" firstAttribute="centerY" secondItem="ynW-jb-PMN" secondAttribute="centerY" id="Hvm-Ex-bhv"/>
+                                                <constraint firstItem="WY6-N5-Ev5" firstAttribute="leading" secondItem="Pyl-s8-fEg" secondAttribute="trailing" constant="10" id="ETn-Gc-H8Q"/>
+                                                <constraint firstItem="u27-eD-CA1" firstAttribute="leading" secondItem="WY6-N5-Ev5" secondAttribute="leading" id="Guo-Sg-DnL"/>
+                                                <constraint firstItem="Pyl-s8-fEg" firstAttribute="top" secondItem="ynW-jb-PMN" secondAttribute="top" constant="5" id="IQH-Vt-NHG"/>
                                                 <constraint firstItem="Pyl-s8-fEg" firstAttribute="leading" secondItem="ynW-jb-PMN" secondAttribute="leading" constant="5" id="QDG-7T-kaH"/>
-                                                <constraint firstItem="WY6-N5-Ev5" firstAttribute="leading" secondItem="Pyl-s8-fEg" secondAttribute="trailing" constant="10" id="Ujc-VK-56K"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="WY6-N5-Ev5" secondAttribute="trailing" constant="10" id="UAA-dk-xXz"/>
+                                                <constraint firstItem="WY6-N5-Ev5" firstAttribute="top" secondItem="Pyl-s8-fEg" secondAttribute="top" id="XKQ-Gc-9hm"/>
+                                                <constraint firstItem="u27-eD-CA1" firstAttribute="width" secondItem="WY6-N5-Ev5" secondAttribute="width" id="bQc-w2-OBy"/>
+                                                <constraint firstItem="Pyl-s8-fEg" firstAttribute="leading" secondItem="ynW-jb-PMN" secondAttribute="leading" constant="5" id="ezf-OG-tP7"/>
+                                                <constraint firstItem="u27-eD-CA1" firstAttribute="top" secondItem="WY6-N5-Ev5" secondAttribute="bottom" constant="5.5" id="syw-Us-djF"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="imageViewThumbnail" destination="Pyl-s8-fEg" id="aMb-Gk-dfP"/>
+                                            <outlet property="labelPhotoDescription" destination="u27-eD-CA1" id="bw4-9t-MKw"/>
+                                            <outlet property="labelPhotoFilename" destination="WY6-N5-Ev5" id="TWv-ki-Rcb"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -72,19 +94,23 @@
                     <navigationItem key="navigationItem" id="dvs-rb-oS1">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="EPu-oy-rzD">
                             <connections>
-                                <segue destination="zxd-64-J6X" kind="show" id="b8y-Bo-6cg"/>
+                                <segue destination="zxd-64-J6X" kind="show" identifier="addNewPhoto" id="qM3-LJ-7me"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableViewPhoto" destination="92M-Nd-Ne6" id="e01-ga-kM2"/>
+                        <segue destination="zxd-64-J6X" kind="show" identifier="editDetail" id="o8p-YQ-lxY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1076" y="138.98050974512745"/>
         </scene>
-        <!--Photo View Controller-->
+        <!--Photo-->
         <scene sceneID="6Pv-BE-59C">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="zxd-64-J6X" customClass="photoViewController" customModule="Assesment_05" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="zxd-64-J6X" customClass="addPhotoViewController" customModule="Assesment_05" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="whB-NM-Vyf"/>
                         <viewControllerLayoutGuide type="bottom" id="iwD-0n-36s"/>
@@ -137,6 +163,13 @@
                             <constraint firstItem="ZSi-OM-Vcd" firstAttribute="leading" secondItem="PWi-tz-0fK" secondAttribute="leading" constant="10" id="kwY-0O-Cgr"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Photo" id="anv-NF-VxB">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="Rwr-0Z-4WX">
+                            <connections>
+                                <action selector="saveDataAsCoreData:" destination="zxd-64-J6X" id="M4Z-sO-JaK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="HqW-bd-Wi6" id="aVV-sW-2DS"/>
                         <outlet property="myScrollview" destination="ZSi-OM-Vcd" id="tgA-Yp-DHy"/>
@@ -146,7 +179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xQH-es-bv6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1768.8" y="138.98050974512745"/>
+            <point key="canvasLocation" x="2018" y="70"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FFD-HP-arh">
@@ -170,4 +203,7 @@
     <resources>
         <image name="規劃路線" width="152" height="154"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="qM3-LJ-7me"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -1,5 +1,5 @@
 //
-//  photoViewController.swift
+//  addPhotoViewController.swift
 //  Assesment_05
 //
 //  Created by  shawn on 11/01/2017.
@@ -9,9 +9,17 @@
 import UIKit
 import NotificationCenter
 import UserNotifications
+import CoreData
 
-class photoViewController: UIViewController {
+class addPhotoViewController: UIViewController {
+    
     let pickerImageController = UIImagePickerController()
+    var loadPhotoCoreData:Photo?  //CoreData方式儲存
+     var from = ""  //判別是誰送過來的
+    var managedContext:NSManagedObjectContext? //coredata
+    var appDelegate:AppDelegate?
+    var context:NSManagedObjectContext?
+    var photo:Photo?
     
     @IBOutlet weak var textFieldPicDescription: UITextField!
  //   @IBOutlet weak var centerYConstraint: NSLayoutConstraint!
@@ -19,19 +27,27 @@ class photoViewController: UIViewController {
     @IBOutlet weak var myScrollview: UIScrollView!
     @IBOutlet weak var photoImage: UIImageView!
      var MoveViewContainerStatus = "MoveDown"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //pickerImageController.sourceType = .camera
-        //pickerImageController.delegate = self
-       // self.present(pickerImageController, animated: true, completion: nil)
+        print("-------------------1.viewDidLoad-------------------")
+        //
+       appDelegate = UIApplication.shared.delegate as! AppDelegate //coredata
+        context = appDelegate?.persistentContainer.viewContext   //coredata
+        
+        //開啟相機
+        if from == "addNewPhoto"{
+        print("開啟相機")
+        pickerImageController.sourceType = .camera
+        pickerImageController.delegate = self
+        self.present(pickerImageController, animated: false, completion: nil)
+        }
         
         myScrollview.delegate = self
         
-        print("self.view--->",self.view.frame)
-        print("bounds--->",self.view.bounds)
-        print(myScrollview.contentSize)
+        print("self.view.frame--->",self.view.frame)
+        print("self.view.bounds--->",self.view.bounds)
+        print("myScrollview.contentSize-------->",myScrollview.contentSize)
         
         //myScrollview.contentSize = CGSize(width: 2000, height: 2000)
 
@@ -56,17 +72,37 @@ class photoViewController: UIViewController {
 //        NSLayoutConstraint.activate([textFieldPicDescription.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),         NSLayoutConstraint(item: textFieldPicDescription, attribute: .top, relatedBy: .equal, toItem: photoImage, attribute: .bottom, multiplier: 1.0, constant: 50)])
 
         
-        NotificationCenter.default.addObserver(self, selector: #selector(photoViewController.keyboardWasShown), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(photoViewController.keyboardWasBeHidden), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addPhotoViewController.keyboardWasShown), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(addPhotoViewController.keyboardWasBeHidden), name: .UIKeyboardWillHide, object: nil)
         print("firstMoveViewContainerStatus---->",MoveViewContainerStatus)
 
         
         // Do any additional setup after loading the view.
     }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //    override func viewWillAppear(_ animated: Bool) {
+    //        checkImageAndTextFieldBound()
+    //    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        print("-------------------2.viewWillAppear-------------------")
+        if let photo = loadPhotoCoreData{
+          textFieldPicDescription.text = photo.photoDescription
+        }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        print("-------------3.viewWillLayoutSubviews---------------")
+    }
+    
     override func viewDidLayoutSubviews() {
         //設定scrollView的contentSize要在viewWillAppear或是viewDidLayoutSubviews中出現
-        print("-------------------2.viewDidLayoutSubviews-------------------")
+        print("-------------------4.viewDidLayoutSubviews--------------")
         
         //設定最大的放大倍數,是圖片（高或寬）到底就停止放大
 //        myScrollview.maximumZoomScale = min(myScrollview.frame.height / containerView.frame.height, myScrollview.frame.width/containerView.frame.width)
@@ -83,31 +119,51 @@ class photoViewController: UIViewController {
         
     }
     
-
-    
-    override func viewWillLayoutSubviews() {
-        print("-------------------1.viewWillLayoutSubviews-------------------")
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
-        print("-------------------3.viewDidAppear-------------------")
+        print("-------------------5.viewDidAppear-------------------")
       checkImageAndTextFieldBound()
     }
-//    override func viewWillAppear(_ animated: Bool) {
-//        checkImageAndTextFieldBound()
-//    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("-------------------6.viewWillDisappear-------------------")
+        
+    }
+    
+    @IBAction func saveDataAsCoreData(_ sender: Any) {
+        saveData()
+        self.navigationController?.popViewController(animated: false)
+    }
+    
+    func saveData(){
+     
+        //如果是點選Cell進來的話,會在prepare 送點選的Data
+        if let photo = loadPhotoCoreData{
+            print("儲存程序1,透過點選cell進來的")
+            let now = Date()
+            let dateFormate = DateFormatter()
+            dateFormate.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            photo.fileName = dateFormate.string(from: now)
+            photo.photoDescription = textFieldPicDescription.text
+        }else{
+            //如果是點選Cell進來的話,沒有資料被送進來
+            print("儲存程序2,點選＋新增照片button")
+            //let photo = Photo(context: context!)
+            let now = Date()
+            let dateFormate = DateFormatter()
+            dateFormate.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            photo?.fileName = dateFormate.string(from: now)
+            photo?.photoDescription = textFieldPicDescription.text
+        }
+        
+      appDelegate?.saveContext()
+        print("儲存完成")
+    }
     
     func checkImageAndTextFieldBound(){
         print("圖片放大倍數height\(myScrollview.frame.height) / \(containerView.frame.height + 40)")
         print("圖片放大倍數width\(myScrollview.frame.width) / \(containerView.frame.width)")
         myScrollview.maximumZoomScale = min(myScrollview.frame.height / (containerView.frame.height + 40), myScrollview.frame.width/containerView.frame.width)
         print("max scale的值", myScrollview.maximumZoomScale )
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func makeScrollViewInCenter(){
@@ -208,7 +264,14 @@ class photoViewController: UIViewController {
     
 }
 
-extension photoViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//拍照
+extension addPhotoViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: false, completion: nil)
+        self.navigationController?.popViewController(animated: false)
+    }
+    
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         print("picker image ->",picker.mediaTypes.first)
         let mediaType:String = "\((picker.mediaTypes.first)!)"
@@ -222,7 +285,9 @@ extension photoViewController: UIImagePickerControllerDelegate, UINavigationCont
                 self.photoImage.image = pickedImage
                 print("0",photoImage.frame)
                 print("準備儲存相片")
-                
+                print("準備儲存相片到coreData")
+                prepareImagingForSaving(inputImage: pickedImage)
+                print("儲存相片到相簿")
                 UIImageWriteToSavedPhotosAlbum(pickedImage, nil, nil, nil)
             }
         }
@@ -230,7 +295,7 @@ extension photoViewController: UIImagePickerControllerDelegate, UINavigationCont
             }
         }
 
-extension photoViewController:UIScrollViewDelegate{
+extension addPhotoViewController:UIScrollViewDelegate{
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         //NSLayoutConstraint.activate([containerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
 //        print(self.view.centerXAnchor)
@@ -240,7 +305,7 @@ extension photoViewController:UIScrollViewDelegate{
 //        print(containerView.bounds.origin.y)
 //        print(containerView.frame.origin.x)
 //        print(containerView.frame.origin.y)
-        print("size-->",photoImage.image?.size)
+        print("0.photoImage.image.size-->",photoImage.image?.size)
         print("1.photoImage.frame",photoImage.frame)
         print("2.photoImage.bounds",photoImage.bounds)
         print("*******3.containerView.frame",containerView.frame)
@@ -306,8 +371,60 @@ extension photoViewController:UIScrollViewDelegate{
 //        
 //        photoImage.frame = contentsFrame;
     }
-    
-    
-    
 }
+
+extension addPhotoViewController{
+
+    func prepareImagingForSaving(inputImage:UIImage){
+        print("相片轉型成NSData")
+        let date = Date()
+        //UIimage轉成NSData
+        guard let imageData = UIImageJPEGRepresentation(inputImage, 1)
+            else{
+            print("jpeg error")
+            return
+        }
+
+        saveImage(imageData: NSData(data: imageData))
+        //saveImage(imageData: imageData as NSData)
+    }
     
+    func saveImage(imageData:NSData){
+         print("儲存相片到coreData")
+       //ios10
+        photo = Photo(context: context!)
+        photo?.photoImage = imageData
+        
+        //ios 9
+//        print("a---->",appDelegate?.managedObjectContext)
+//           self.managedContext = appDelegate?.managedObjectContext
+//        //self.managedContext = AppDelegate().managedObjectContext
+//        guard let moc = self.managedContext else {
+//            print("儲存相片error1")
+//            return
+//        }
+//        print("儲存相片到coreData1")
+//        //舊版寫法
+                //                guard let coreDataPhotoImage = NSEntityDescription.insertNewObjectForEntityForName("Photo", inManagedObjectContext: moc) as? Photo else{
+                //                    return
+                //                }
+//        guard let coreDataPhotoImage = NSEntityDescription.insertNewObject(forEntityName: "Photo", into: moc) as? Photo else{
+//             print("儲存相片error2")
+//            return
+//        }
+//        print("儲存相片到coreData2")
+//        coreDataPhotoImage.photoImage = imageData
+//        do{
+//            try moc.save()
+//        }catch{
+//             print("儲存相片error3")
+//            fatalError("failure to save context:\(error)")
+//        }
+//        print("儲存相片到coreData3")
+//        //clear the moc
+//        moc.refreshAllObjects()
+//         print("儲存相片到coreData End")
+       }
+    }
+
+
