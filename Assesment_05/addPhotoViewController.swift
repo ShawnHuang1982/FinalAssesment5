@@ -13,7 +13,11 @@ import CoreData
 
 class addPhotoViewController: UIViewController {
     
+    //拍照用
     let pickerImageController = UIImagePickerController()
+    var pickedImageForShare:UIImage?
+    
+    //CoreData用
     var loadPhotoCoreData:Photo?  //CoreData方式儲存
      var from = ""  //判別是誰送過來的
     var managedContext:NSManagedObjectContext? //coredata
@@ -96,6 +100,9 @@ class addPhotoViewController: UIViewController {
           textFieldPicDescription.text = photo.photoDescription
             //將NSdata轉UIimage
             photoImage.image =  UIImage(data: photo.photoImage as! Data)
+            
+            //設定圖片可以分享
+            pickedImageForShare = UIImage(data: photo.photoImage as! Data)
         }
     }
     
@@ -130,6 +137,28 @@ class addPhotoViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         print("-------------------6.viewWillDisappear-------------------")
         
+    }
+    
+    
+    @IBAction func rightButtonShare(_ sender: Any) {
+        var items = [Any]()
+        if textFieldPicDescription.text != nil{
+            print("分享照片1")
+            print(textFieldPicDescription.text) //照片的描述
+             items = [pickedImageForShare,textFieldPicDescription.text] as [Any]
+        }else{
+            print("分享照片2")
+            items = [pickedImageForShare]
+        }
+        
+       // set up activity view controller
+        let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        //for swift3 才不會crash
+        controller.popoverPresentationController?.sourceView = self.view
+        // exclude some activity types from the list (optional)
+        controller.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        // present the view controller
+        self.present(controller, animated: true, completion: nil)
     }
     
     @IBAction func saveDataAsCoreData(_ sender: Any) {
@@ -267,7 +296,7 @@ class addPhotoViewController: UIViewController {
     
 }
 
-//拍照
+//Process - 拍照
 extension addPhotoViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: false, completion: nil)
@@ -285,7 +314,10 @@ extension addPhotoViewController: UIImagePickerControllerDelegate, UINavigationC
 //                print(self.containerView.frame.height)
 //                pickedImage.draw(in: CGRect(x: 0, y: 0, width: self.containerView.frame.width, height: self.containerView.frame.height))
 //                    pickedImage.draw(in: CGRect(x: 0, y: 0, width: 300  , height: 300))
+                //顯示照片
                 self.photoImage.image = pickedImage
+                //Share照片
+                pickedImageForShare = pickedImage
                 print("0",photoImage.frame)
                 print("準備儲存相片")
                 print("準備儲存相片到coreData")

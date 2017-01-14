@@ -167,7 +167,11 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Photo" id="anv-NF-VxB">
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="action" id="XDK-it-hsN"/>
+                            <barButtonItem systemItem="action" id="XDK-it-hsN">
+                                <connections>
+                                    <action selector="rightButtonShare:" destination="zxd-64-J6X" id="8qr-hf-4wB"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem style="plain" id="LbL-iQ-bLK">
                                 <view key="customView" contentMode="scaleToFill" id="qlh-Sf-LO8">
                                     <rect key="frame" x="291" y="5" width="30" height="33"/>
