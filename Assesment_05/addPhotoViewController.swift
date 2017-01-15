@@ -26,7 +26,6 @@ class addPhotoViewController: UIViewController {
     var photo:Photo?
     
     @IBOutlet weak var textFieldPicDescription: UITextField!
- //   @IBOutlet weak var centerYConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var myScrollview: UIScrollView!
     @IBOutlet weak var photoImage: UIImageView!
@@ -54,11 +53,6 @@ class addPhotoViewController: UIViewController {
         print("myScrollview.contentSize-------->",myScrollview.contentSize)
         
         //myScrollview.contentSize = CGSize(width: 2000, height: 2000)
-
-        //沒有work
-//        textFieldPicDescription.frame.origin.x = 500
-//        textFieldPicDescription.bounds.origin.x = 500
-        
         
         //設定ScrollView縮放
         myScrollview.setZoomScale(1, animated: false)
@@ -68,13 +62,6 @@ class addPhotoViewController: UIViewController {
         print("---->",myScrollview.frame.height)
         print("--->",myScrollview.frame)
         print("---->",containerView.frame.height)
-        
-//        NSLayoutConstraint.activate([textFieldPicDescription.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),textFieldPicDescription.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
-        
-
-
-//        NSLayoutConstraint.activate([textFieldPicDescription.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),         NSLayoutConstraint(item: textFieldPicDescription, attribute: .top, relatedBy: .equal, toItem: photoImage, attribute: .bottom, multiplier: 1.0, constant: 50)])
-
         
         NotificationCenter.default.addObserver(self, selector: #selector(addPhotoViewController.keyboardWasShown), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(addPhotoViewController.keyboardWasBeHidden), name: .UIKeyboardWillHide, object: nil)
@@ -89,10 +76,6 @@ class addPhotoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    //    override func viewWillAppear(_ animated: Bool) {
-    //        checkImageAndTextFieldBound()
-    //    }
-
     override func viewWillAppear(_ animated: Bool) {
         print("-------------------2.viewWillAppear-------------------")
         //經過表格點選,會送入點選的表格資料,將根據這個資料顯示
@@ -113,20 +96,9 @@ class addPhotoViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         //設定scrollView的contentSize要在viewWillAppear或是viewDidLayoutSubviews中出現
         print("-------------------4.viewDidLayoutSubviews--------------")
-        
-        //設定最大的放大倍數,是圖片（高或寬）到底就停止放大
-//        myScrollview.maximumZoomScale = min(myScrollview.frame.height / containerView.frame.height, myScrollview.frame.width/containerView.frame.width)
-//        print("max scale的值", myScrollview.maximumZoomScale )
-//            print("圖片放大倍數height\(myScrollview.frame.height) / \(containerView.frame.height + 40)")
-//        print("圖片放大倍數width\(myScrollview.frame.width) / \(containerView.frame.width)")
-//        myScrollview.maximumZoomScale = min(myScrollview.frame.height / (containerView.frame.height + 40), myScrollview.frame.width/containerView.frame.width)
-//                print("max scale的值", myScrollview.maximumZoomScale )
-       // checkImageAndTextFieldBound()
-          makeScrollViewInCenter()
+        makeScrollViewInCenter()
         textFieldAutoLayout()
         checkImageAndTextFieldBound()
-       // myScrollview.contentSize = CGSize(width: 2000, height: 2000)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -216,54 +188,17 @@ class addPhotoViewController: UIViewController {
         myScrollview.contentInset = UIEdgeInsetsMake(top, left, top, left)
         print("改變後",myScrollview.contentInset)
         print("2.",photoImage.frame)
-        
-        
-        
-        
-//        textFieldPicDescription.center = CGPoint(x: 100, y: 100)
     }
     
     func textFieldAutoLayout(){
         print("==========================S")
-//        print("myScrollview.center",myScrollview.center)
-//        print("(myScrollview.frame.width)/2->",(myScrollview.frame.width)/2)
-//        print("y軸1",myScrollview.frame.origin.y + containerView.frame.height)
-//        print("y軸2",myScrollview.center.y + (containerView.frame.height)/2)
-        
         textFieldPicDescription.frame = CGRect(x: 0 , y: 0 , width: 100, height: 30)
-
         textFieldPicDescription.frame = CGRect(x: containerView.center.x-100 , y: containerView.frame.size.height + 5 , width: 200, height: 30)
 
         print("textFieldPicDescription.frame",textFieldPicDescription.frame)
-        
-        //     print("textFieldPicDescription.center",textFieldPicDescription.center)
-  //      print("myScrollview.center",myScrollview.center)
-        
-        //AutoLayout文字框置中與圖片間隔65
-        //NSLayoutConstraint.activate([textFieldPicDescription.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),         NSLayoutConstraint(item: textFieldPicDescription, attribute: .top, relatedBy: .equal, toItem: photoImage, attribute: .bottom, multiplier: 1.0, constant: 50)])
-        //AutoLayout與圖片間隔65
-        
-      //  textFieldPicDescription.frame = CGRect(x: 100, y: 300, width: 50, height: 30)
-        
-    //textField置中
-    //NSLayoutConstraint.activate([textFieldPicDescription.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)])
-        //NSLayoutConstraint.activate([textFieldPicDescription.centerXAnchor.constraint(equalTo: self.photoImage.centerXAnchor)])
         print("myScrollview.zoomScale",myScrollview.zoomScale)
-        //textField離圖片距離5
-          //  NSLayoutConstraint.activate([NSLayoutConstraint(item: textFieldPicDescription, attribute: .top , relatedBy: .equal, toItem: containerView , attribute: .bottom, multiplier: 1 , constant: 5 )]) //失敗
-        //NSLayoutConstraint.activate([NSLayoutConstraint(item: textFieldPicDescription, attribute: .bottom, relatedBy: .greaterThanOrEqual, toItem: myScrollview, attribute: .bottom, multiplier: 1.0, constant: 50)]) //失敗
         print(containerView.frame)
-    //    print(textFieldPicDescription.frame)
-//        textFieldPicDescription.frame.origin.y = containerView.frame.origin.y +  myScrollview.bounds.height + 20
         print(textFieldPicDescription.frame)
-     //   print(containerView.frame.origin.y +  myScrollview.bounds.height + 20)
-        
-
-        
-//        print(">>>>>>>")
-//        print("textFieldPicDescription.center",textFieldPicDescription.center)
-//        print("textFieldPicDescription.frame",textFieldPicDescription.frame)
-//        print("myScrollview.center",myScrollview.center)
         print("==========================E")
     }
     
@@ -310,10 +245,6 @@ extension addPhotoViewController: UIImagePickerControllerDelegate, UINavigationC
         
         if mediaType == "public.image"{
             if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage{
-//                print(self.containerView.frame.width)
-//                print(self.containerView.frame.height)
-//                pickedImage.draw(in: CGRect(x: 0, y: 0, width: self.containerView.frame.width, height: self.containerView.frame.height))
-//                    pickedImage.draw(in: CGRect(x: 0, y: 0, width: 300  , height: 300))
                 //顯示照片
                 self.photoImage.image = pickedImage
                 //Share照片
@@ -332,14 +263,6 @@ extension addPhotoViewController: UIImagePickerControllerDelegate, UINavigationC
 
 extension addPhotoViewController:UIScrollViewDelegate{
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        //NSLayoutConstraint.activate([containerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
-//        print(self.view.centerXAnchor)
-//        print(self.view.centerYAnchor)
-//
-//        print(containerView.bounds.origin.x)
-//        print(containerView.bounds.origin.y)
-//        print(containerView.frame.origin.x)
-//        print(containerView.frame.origin.y)
         print("0.photoImage.image.size-->",photoImage.image?.size)
         print("1.photoImage.frame",photoImage.frame)
         print("2.photoImage.bounds",photoImage.bounds)
@@ -349,62 +272,11 @@ extension addPhotoViewController:UIScrollViewDelegate{
         print("6.myScrollview.contentSize",myScrollview.contentSize)
         print("*******7.myScrollview.bounds",myScrollview.bounds)
         print("8.textField",textFieldPicDescription.frame)
-        
-//        var limitView = UIView()
-//        if containerView.frame.width < myScrollview.contentSize.width{
-//            limitView = containerView
-//        return containerView
-//        }
         return containerView
-        //return photoImage
-    }
-
-    
+        }
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-       
-      //  myScrollview.contentSize = CGSize(width: 2000, height: 2000)
-        //print("7.containerView.centerXAnchor",containerView.centerXAnchor)
-        //print("8.containerView.centerYAnchor",containerView.centerYAnchor)
-        //print("9.",containerView.center)
-       
         makeScrollViewInCenter()
         textFieldAutoLayout()
-       //  self.textFieldPicDescription.setNeedsUpdateConstraints()
-//        NSLayoutConstraint.activate([containerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
-//        var diff = self.photoImage.frame.size.height-(self.photoImage.image?.size.height)!
-//        if(self.photoImage.frame.size.height >= scrollView.frame.size.height) {
-//            return
-//        }
-//        self.centerYConstraint.constant = diff/2
-        
-//        var left:CGFloat = 0
-//        var top:CGFloat = 0
-//        if scrollView.contentSize.width < scrollView.bounds.size.width{
-//            left = (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5
-//        }
-//        if scrollView.contentSize.height < scrollView.bounds.size.height{
-//            top = (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5
-//        }
-//        scrollView.contentInset = UIEdgeInsetsMake(top, left, top, left)
-//         print("2.",photoImage.frame)
-//
-        
-//        let boundsSize = scrollView.bounds.size
-//        var contentsFrame = photoImage.frame
-//        
-//        if (contentsFrame.size.width < boundsSize.width) {
-//            contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0
-//        } else {
-//            contentsFrame.origin.x = 0.0
-//        }
-//        
-//        if (contentsFrame.size.height < boundsSize.height) {
-//            contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0
-//        } else {
-//            contentsFrame.origin.y = 0.0
-//        }
-//        
-//        photoImage.frame = contentsFrame;
     }
 }
 
@@ -419,8 +291,6 @@ extension addPhotoViewController{
             print("jpeg error")
             return
         }
-
-//        saveImage(imageData: NSData(data: imageData))
         saveImage(imageData: imageData as NSData)
     }
     
@@ -429,37 +299,7 @@ extension addPhotoViewController{
        //ios10
         photo = Photo(context: context!)
         photo?.photoImage = imageData
-        
-        //ios 9
-//        print("a---->",appDelegate?.managedObjectContext)
-//           self.managedContext = appDelegate?.managedObjectContext
-//        //self.managedContext = AppDelegate().managedObjectContext
-//        guard let moc = self.managedContext else {
-//            print("儲存相片error1")
-//            return
-//        }
-//        print("儲存相片到coreData1")
-//        //舊版寫法
-                //                guard let coreDataPhotoImage = NSEntityDescription.insertNewObjectForEntityForName("Photo", inManagedObjectContext: moc) as? Photo else{
-                //                    return
-                //                }
-//        guard let coreDataPhotoImage = NSEntityDescription.insertNewObject(forEntityName: "Photo", into: moc) as? Photo else{
-//             print("儲存相片error2")
-//            return
-//        }
-//        print("儲存相片到coreData2")
-//        coreDataPhotoImage.photoImage = imageData
-//        do{
-//            try moc.save()
-//        }catch{
-//             print("儲存相片error3")
-//            fatalError("failure to save context:\(error)")
-//        }
-//        print("儲存相片到coreData3")
-//        //clear the moc
-//        moc.refreshAllObjects()
-//         print("儲存相片到coreData End")
-       }
+        }
     }
 
 
